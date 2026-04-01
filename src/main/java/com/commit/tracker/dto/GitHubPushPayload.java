@@ -18,7 +18,6 @@ public class GitHubPushPayload {
 	private Pusher pusher;
 	private Repository repository;
 	private List<CommitInfo> commits;
-
 	@Data
 	@NoArgsConstructor
 	@AllArgsConstructor
