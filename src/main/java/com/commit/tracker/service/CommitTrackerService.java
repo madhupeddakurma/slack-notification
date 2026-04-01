@@ -42,6 +42,8 @@ public class CommitTrackerService {
 		authorObj.setCommits(commits);
 
 		authorRepository.save(authorObj);
+		
+		slackNotifier.sendPushSummary(authorObj);
 
 	}
 
