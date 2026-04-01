@@ -6,9 +6,11 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.commit.tracker.dto.CommitDto;
 import com.commit.tracker.dto.GitHubPushPayload;
 import com.commit.tracker.entity.Author;
 import com.commit.tracker.entity.Commit;
+import com.commit.tracker.mapper.TrackerMapper;
 import com.commit.tracker.repository.AuthorRepository;
 import com.commit.tracker.repository.CommitRepository;
 
@@ -50,6 +52,12 @@ public class CommitTrackerService {
 		authorRepository.save(authorObj);
 		slackNotifier.sendPushSummary(authorObj);
 
+	}
+	
+	public List<CommitDto> findCommitsByAuthor(Long authorId){
+		List<Commit>commits=commitRepository.findByAuthorId(authorId);
+		List<CommitDto> dto=TrackerMapper.toCommitRequestDto(commits);
+		return dto;
 	}
 
 }

@@ -6,30 +6,24 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
-
 @Configuration
 public class Config {
 
-	 @Bean
-	    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-	        http
-	            .authorizeHttpRequests(auth -> auth
-	               
-	                .requestMatchers("/h2-console/**").permitAll()
-	              
-	                .requestMatchers("/github/api/push").permitAll()
-	               
-	                .anyRequest().authenticated()
-	            )
-	            .csrf(csrf -> csrf
-	                .ignoringRequestMatchers("/h2-console/**", "/github/api/push")
-	            )
-	           
-	            .headers(headers -> headers
-	                .frameOptions(frame -> frame.sameOrigin())
-	            );
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		http.authorizeHttpRequests(auth -> auth
 
-	        return http.build();
-	    }
-	
+				.requestMatchers("/h2-console/**").permitAll()
+
+				.requestMatchers("/github/api/push", "/github/api/author/**").permitAll()
+
+				.anyRequest().authenticated())
+				.csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**", "/github/api/push",
+						"/github/api/author/**"))
+
+				.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
+
+		return http.build();
+	}
+
 }
