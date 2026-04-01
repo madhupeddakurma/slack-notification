@@ -23,7 +23,6 @@ public class GitHubController {
 
 	@Autowired
 	private CommitTrackerService commitTrackerService;
-
 	@PostMapping("/push")
 	public ResponseEntity<String> sendPush(@RequestBody GitHubPushPayload payloadRequest) {
 		System.out.println("payloadRequest=> " + payloadRequest);
