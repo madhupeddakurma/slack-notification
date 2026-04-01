@@ -16,7 +16,6 @@ public class Config {
 				.requestMatchers("/h2-console/**").permitAll()
 
 				.requestMatchers("/github/api/push", "/github/api/author/**").permitAll()
-
 				.anyRequest().authenticated())
 				.csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**", "/github/api/push",
 						"/github/api/author/**"))
