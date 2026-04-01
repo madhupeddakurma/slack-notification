@@ -1,5 +1,7 @@
 package com.commit.tracker.entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,11 +21,10 @@ public class Commit {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String message;
-	private String timestamp;
+	private LocalDateTime timestamp;
 	
 	@ManyToOne
 	@JoinColumn(name ="author_id")
 	private Author author;
 	
-
 }

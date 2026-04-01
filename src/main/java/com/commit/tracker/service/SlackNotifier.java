@@ -1,5 +1,8 @@
 package com.commit.tracker.service;
 
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -8,41 +11,20 @@ import com.commit.tracker.entity.Author;
 @Component
 public class SlackNotifier {
 
-	private static final String SLACK_WEBHOOK_URL ="https://fabricative-avoidable-cayla.ngrok-free.dev";
-	
-	
-	public void sendCommit(Author author) {
+	@Value("${slack.webhook.url}")
+	private String slackWebhookUrl;
+
+	public void sendPushSummary(Author author) {
 		StringBuilder message = new StringBuilder();
-		message.append("Author").append(author.getName()).append(" (")
-		.append(author.getEmail()).append(")").append("Commits: ");
-		
-		
-		author.getCommits().forEach(commits->{
-			 message.append(" - ").append(commits.getMessage())
-             .append(" at ").append(commits.getTimestamp()).append(" ");
-  });
-		
-		
-		RestTemplate  restTemplate = new RestTemplate();
-		restTemplate.postForObject(SLACK_WEBHOOK_URL, new SlackMessage(message.toString()), String.class);
+		message.append("*New Push Detected!*\n");
+		message.append("Author: ").append(author.getName()).append("\n");
+		message.append("Commits:\n");
+		author.getCommits().forEach(c -> message.append("- ").append(c.getMessage()).append("\n"));
+
+		// Send to Slack
+		RestTemplate restTemplate = new RestTemplate();
+		Map<String, String> payload = Map.of("text", message.toString());
+		restTemplate.postForEntity(slackWebhookUrl, payload, String.class);
 	}
-	
-	private static class SlackMessage{
-		private String text;
 
-		public SlackMessage(String text) {
-			super();
-			this.text = text;
-		}
-
-		public String getText() {
-			return text;
-		}
-
-		public void setText(String text) {
-			this.text = text;
-		}
-		
-		
-	}
 }

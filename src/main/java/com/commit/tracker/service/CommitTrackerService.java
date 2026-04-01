@@ -1,15 +1,14 @@
 package com.commit.tracker.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.commit.tracker.dto.AuthorRequest;
-import com.commit.tracker.dto.CommitRequest;
+import com.commit.tracker.dto.GitHubPushPayload;
 import com.commit.tracker.entity.Author;
 import com.commit.tracker.entity.Commit;
-import com.commit.tracker.mapper.TrackerMapper;
 import com.commit.tracker.repository.AuthorRepository;
 import com.commit.tracker.repository.CommitRepository;
 
@@ -21,37 +20,29 @@ public class CommitTrackerService {
 	private AuthorRepository authorRepository;
 	@Autowired
 	private CommitRepository commitRepository;
+
 	@Autowired
 	private SlackNotifier slackNotifier;
 
 	@Transactional
-	public AuthorRequest saveauthorWithCommits(AuthorRequest authorRequest) {
-		Author author = TrackerMapper.toAuthorEntity(authorRequest);
-		author.getCommits().forEach(commit -> commit.setAuthor(author));
+	public void sendPushRequest(GitHubPushPayload payloadReuest) {
 
-		Author savedAuthor = authorRepository.save(author);
-		slackNotifier.sendCommit(savedAuthor);
+		Author authorObj = new Author();
 
-		return TrackerMapper.toAuthorRequestDto(savedAuthor);
+		authorObj.setName(payloadReuest.getPusher().getName());
 
-	}
+		List<Commit> commits = payloadReuest.getCommits().stream().map(c -> {
+			Commit commit = new Commit();
+			commit.setAuthor(authorObj);
+			commit.setMessage(c.getMessage());
+			commit.setTimestamp(c.getTimestamp());
+			return commit;
+		}).collect(Collectors.toList());
 
-	@Transactional
-	public CommitRequest saveCommit(CommitRequest commitRequest) {
-		Author author = authorRepository.findById(commitRequest.getAuthorId())
-				.orElseThrow(() -> new RuntimeException("Author not found"));
+		authorObj.setCommits(commits);
 
-		Commit commit = TrackerMapper.toCommitEntity(commitRequest);
-		commit.setAuthor(author);
-		
-		Commit savedCommit = commitRepository.save(commit);
-		slackNotifier.sendCommit(author);
-
-		return TrackerMapper.toCommitRequestDto(savedCommit);
+		authorRepository.save(authorObj);
 
 	}
 
-	public List<Commit> getCommitsByAuthor(Long authorId) {
-		return commitRepository.findByAuthorId(authorId);
-	}
 }
