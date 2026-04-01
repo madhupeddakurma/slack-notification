@@ -31,9 +31,9 @@ public class GitHubController {
 		return ResponseEntity.ok("Processed");
 	}
 
-	@GetMapping("/author/{authorId}")
-	public ResponseEntity<List<CommitDto>> getAllCommits(@PathVariable Long authorId) {
-		List<CommitDto> commits = commitTrackerService.findCommitsByAuthor(authorId);
+	@GetMapping("/author/{authorName}")
+	public ResponseEntity<List<CommitDto>> getAllCommits(@PathVariable String authorName) {
+		List<CommitDto> commits = commitTrackerService.findCommitsByAuthor(authorName);
 		return ResponseEntity.status(HttpStatus.OK).body(commits);
 
 	}

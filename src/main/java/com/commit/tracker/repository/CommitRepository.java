@@ -8,5 +8,6 @@ import org.springframework.stereotype.Repository;
 import com.commit.tracker.entity.Commit;
 @Repository
 public interface CommitRepository extends JpaRepository<Commit, Long> {
-	List<Commit> findByAuthorId(Long authorId);
+	//List<Commit> findByAuthorId(Long authorId);
+	List<Commit> findByAuthorName(String name);
 }

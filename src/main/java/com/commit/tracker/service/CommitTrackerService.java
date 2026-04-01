@@ -54,8 +54,8 @@ public class CommitTrackerService {
 
 	}
 	
-	public List<CommitDto> findCommitsByAuthor(Long authorId){
-		List<Commit>commits=commitRepository.findByAuthorId(authorId);
+	public List<CommitDto> findCommitsByAuthor(String name){
+		List<Commit>commits=commitRepository.findByAuthorName(name);
 		List<CommitDto> dto=TrackerMapper.toCommitRequestDto(commits);
 		return dto;
 	}
