@@ -35,6 +35,7 @@ public class CommitTrackerService {
 
 		authorObj.setName(payloadReuest.getPusher().getName());
 		authorObj.setEmail(payloadReuest.getPusher().getEmail());
+		authorObj.setCommits(payloadReuest.getPusher().getCommits());
 
 		List<Commit> commits = payloadReuest.getCommits().stream().map(c -> {
 			Commit commit = new Commit();

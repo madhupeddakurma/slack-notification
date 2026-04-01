@@ -2,6 +2,9 @@ package com.commit.tracker.dto;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+
+import com.commit.tracker.entity.Commit;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,6 +25,7 @@ public class GitHubPushPayload {
 	public static class Pusher {
 		private String name;
 		private String email;
+		private List<Commit> commits;
 	}
 
 	@Data
