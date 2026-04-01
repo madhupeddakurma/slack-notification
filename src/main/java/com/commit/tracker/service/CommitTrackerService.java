@@ -26,7 +26,7 @@ public class CommitTrackerService {
 
 	@Transactional
 	public void sendPushRequest(GitHubPushPayload payloadReuest) {
-		System.out.println("payloadRequest=> "  +payloadReuest);
+		System.out.println("payloadRequest=> " + payloadReuest);
 
 		if (payloadReuest.getPusher() == null) {
 			throw new IllegalArgumentException("Payload missing pusher info");
@@ -39,6 +39,7 @@ public class CommitTrackerService {
 			Commit commit = new Commit();
 			commit.setAuthor(authorObj);
 			commit.setMessage(c.getMessage());
+			commit.setTimestamp(c.getTimestamp());
 			return commit;
 		}).collect(Collectors.toList());
 

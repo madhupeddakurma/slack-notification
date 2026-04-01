@@ -1,6 +1,6 @@
 package com.commit.tracker.dto;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,7 +39,7 @@ public class GitHubPushPayload {
 	public static class CommitInfo {
 		private String id;
 		private String message;
-		private LocalDateTime timestamp;
+		private OffsetDateTime timestamp;
 		private Author author;
 
 		@Data
