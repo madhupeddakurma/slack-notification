@@ -26,7 +26,9 @@ public class CommitTrackerService {
 
 	@Transactional
 	public void sendPushRequest(GitHubPushPayload payloadReuest) {
-
+		if (payloadReuest.getPusher() == null) {
+			throw new IllegalArgumentException("Payload missing pusher info");
+		}
 		Author authorObj = new Author();
 
 		authorObj.setName(payloadReuest.getPusher().getName());
