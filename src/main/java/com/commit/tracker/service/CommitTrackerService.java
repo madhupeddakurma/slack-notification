@@ -26,6 +26,8 @@ public class CommitTrackerService {
 
 	@Transactional
 	public void sendPushRequest(GitHubPushPayload payloadReuest) {
+		System.out.println("payloadRequest=> "  +payloadReuest);
+
 		if (payloadReuest.getPusher() == null) {
 			throw new IllegalArgumentException("Payload missing pusher info");
 		}
