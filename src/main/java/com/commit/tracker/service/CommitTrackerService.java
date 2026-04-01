@@ -39,7 +39,6 @@ public class CommitTrackerService {
 			Commit commit = new Commit();
 			commit.setAuthor(authorObj);
 			commit.setMessage(c.getMessage());
-			commit.setTimestamp(c.getTimestamp());
 			return commit;
 		}).collect(Collectors.toList());
 
