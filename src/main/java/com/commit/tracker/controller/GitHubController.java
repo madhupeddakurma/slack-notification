@@ -28,6 +28,7 @@ public class GitHubController {
 		System.out.println("payloadRequest=> " + payloadRequest);
 		commitTrackerService.sendPushRequest(payloadRequest);
 		return ResponseEntity.ok("Processed");
+		
 	}
 
 	@GetMapping("/author/{authorName}")

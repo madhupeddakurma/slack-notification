@@ -26,7 +26,6 @@ public class CommitTrackerService {
 	@Autowired
 	private SlackNotifier slackNotifier;
 
-	@Transactional
 	public void sendPushRequest(GitHubPushPayload payloadReuest) {
 		System.out.println("payloadRequest=> " + payloadReuest);
 
