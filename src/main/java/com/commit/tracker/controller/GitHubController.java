@@ -14,7 +14,6 @@ public class GitHubController {
 
 	@Autowired
 	private CommitTrackerService commitTrackerService;
-	
 	@PostMapping("/push")
 	public ResponseEntity<String> sendPush(GitHubPushPayload payloadRequest){
 		commitTrackerService.sendPushRequest(payloadRequest);
