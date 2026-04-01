@@ -21,7 +21,6 @@ public class Config {
 	               
 	                .anyRequest().authenticated()
 	            )
-	           
 	            .csrf(csrf -> csrf
 	                .ignoringRequestMatchers("/h2-console/**", "/github/api/push")
 	            )
