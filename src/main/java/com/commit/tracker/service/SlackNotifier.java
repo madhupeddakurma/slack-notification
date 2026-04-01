@@ -20,7 +20,6 @@ public class SlackNotifier {
 		message.append("Author: ").append(author.getName()).append("\n");
 		message.append("Commits:\n");
 		author.getCommits().forEach(c -> message.append("- ").append(c.getMessage()).append("\n"));
-
 		// Send to Slack
 		RestTemplate restTemplate = new RestTemplate();
 		Map<String, String> payload = Map.of("text", message.toString());
